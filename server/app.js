@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express      = require('express');
 const path         = require('path');
 const favicon      = require('serve-favicon');
@@ -6,11 +7,27 @@ const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
 const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
+const cors = require('cors');
+const passport = require('passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const authRoutes = require('./routes/auth');
+const debug = require('debug')("angularauth:" + path.basename(__filename).split('.')[0]);
 
 
 mongoose.connect('mongodb://localhost/server');
 
 const app = express();
+
+var whitelist = ['http://localhost:4200'];
+var corsOptions = {
+  origin: function(origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,8 +45,27 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
 
+app.use(session({
+  secret: 'angular auth passport secret shh',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 365
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}));
+require('./passport/serializers');
+require('./passport/local');
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 const index = require('./routes/index');
 app.use('/', index);
+app.use('/auth', authRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
