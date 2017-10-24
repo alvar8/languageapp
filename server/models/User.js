@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'The password brand is required']
   },
   email:String,
-  langauges:[{type:String}],
+  language:String,
+  learning:[{type:String}],
   picture: String,
   pictureName:String
 }, {

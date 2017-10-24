@@ -1,0 +1,21 @@
+
+<form >
+  <h2> Signup </h2>
+  <label> Username </label>
+  <input type="text" [(ngModel)]="formInfo.username" name="username"/>
+  <br>
+  <label> Password </label>
+  <input type="password" [(ngModel)]="formInfo.password" name="password"/>
+  <br>
+  <label> Native language </label>
+  <input type="radio" [(ngModel)]="formInfo.role" name="role" value="Tutor"> Tutor
+  <input type="radio" [(ngModel)]="formInfo.role" name="role" value="Student"> Student<br>
+  <select>
+  <option value="english">English</option>
+  <option value="spanish">Spanish</option>
+  <option value="german">German</option>
+  <option value="french">French</option>
+</select>
+
+  <button (click)="signup()" class="btn"> signup </button>
+</form>
