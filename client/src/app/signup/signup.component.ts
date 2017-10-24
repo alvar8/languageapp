@@ -12,20 +12,25 @@ export class SignupComponent implements OnInit {
     username:"",
     password:"",
     native:"",
+    learning:[]
   }
+  language:any=0;
   constructor(public auth:AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   signup(){
-    const {username, password, native} = this.formInfo;
+    const {username, password, native, learning} = this.formInfo;
     if(username != "" && password != ""){
-      this.auth.signup(username, password, native)
+      this.auth.signup(username, password, native, learning)
       .map(user => console.log(user))
       .subscribe(r=>this.router.navigate(['/home']));
     } else{
       console.log("You must set a username and a password");
     }
+  }
+  addLanguage(){
+    this.language++
   }
 }

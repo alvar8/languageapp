@@ -8,13 +8,41 @@
   <input type="password" [(ngModel)]="formInfo.password" name="password"/>
   <br>
   <label> Native language </label>
-  <select>
+  <select [(ngModel)]="formInfo.native" name="native">
   <option value="english">English</option>
   <option value="spanish">Spanish</option>
   <option value="german">German</option>
   <option value="french">French</option>
-  </select>
+</select><br>
+<div>
+  <label> Learning </label>
+  <select [(ngModel)]="formInfo.learning[0]" name="learning">
+  <option value="english">English</option>
+  <option value="spanish">Spanish</option>
+  <option value="german">German</option>
+  <option value="french">French</option>
+</select><br>
+<div *ngIf="this.language>0">
+  <label> Learning </label>
+  <select [(ngModel)]="formInfo.learning[1]" name="learning">
+  <option value="english">English</option>
+  <option value="spanish">Spanish</option>
+  <option value="german">German</option>
+  <option value="french">French</option>
+</select><br>
+</div>
+<div *ngIf="this.language>1">
+  <label> Learning </label>
+  <select [(ngModel)]="formInfo.learning[2]" name="learning">
+  <option value="english">English</option>
+  <option value="spanish">Spanish</option>
+  <option value="german">German</option>
+  <option value="french">French</option>
+</select><br>
+</div>
+<button (click)="addLanguage()">Add another language</button>
+</div>
 
-  
+
   <button (click)="signup()" class="btn"> signup </button>
 </form>

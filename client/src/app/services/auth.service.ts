@@ -34,8 +34,8 @@ export class AuthService {
       return Observable.throw(e.json().message);
     }
 
-    signup(username,password,native) {
-      return this.http.post(`${BASEURL}/signup`, {username,password,native}, this.options)
+    signup(username,password,native,learning) {
+      return this.http.post(`${BASEURL}/signup`, {username,password,native,learning}, this.options)
         .map(res => res.json())
         .map(user => this.emitUserLoginEvent(user))
         .catch(this.handleError);
